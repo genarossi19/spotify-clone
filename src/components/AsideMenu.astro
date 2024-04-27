@@ -1,0 +1,48 @@
+---
+import LibraryIcon from "../icons/Library.astro";
+import HomeIcon from "../icons/Home.astro";
+import SearchIcon from "../icons/Search.astro";
+import SideMenuItem from "./SideMenuItem.astro";
+import SideMenuCard from "./SideMenuCard.astro";
+
+import { playlists } from "@/lib/data.ts";
+---
+
+<nav class="flex flex-col gap-2 flex-1">
+  <div class="bg-base-color rounded-lg p-2">
+    <ul>
+      <SideMenuItem href="/">
+        <!-- el icono y el texto con el slot -->
+        <HomeIcon />
+        Home
+      </SideMenuItem>
+
+      <SideMenuItem href="/#">
+        <SearchIcon />
+        Search
+      </SideMenuItem>
+    </ul>
+  </div>
+  <div
+    class="bg-base-color rounded-lg p-2  text-text-color font-bold flex-1"
+  >
+    <!-- el flex-1 es para que se estrie hasta abajo ese div -->
+    <ul>
+      <SideMenuItem href="/library">
+        <LibraryIcon />
+        Library
+      </SideMenuItem>
+
+      <!-- Cargamos la playlist que tenemos en data.ts -->
+      {
+        playlists.map((playlist) => (
+          <SideMenuCard playlist={playlist}>
+            <slot />
+          </SideMenuCard>
+        ))
+      }
+    </ul>
+
+  
+  </div>
+</nav>

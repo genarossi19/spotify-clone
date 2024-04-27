@@ -1,0 +1,50 @@
+---
+//importamos el tipo de la playlist en data
+import type { Playlist } from "@/lib/data";
+
+import CardPlayButton from "@/components/CardPlayButton.jsx";
+
+ interface Props {
+    //una prop llamada playlist de tipo Playlist que viene de data y tiene id, cover, title, artists y color
+   playlist: Playlist;
+
+ }
+
+ const { playlist } = Astro.props;
+ //destructuramos lo que viene en playlist
+ const {
+id,
+cover,
+title,
+artists,
+color
+
+ } = playlist
+
+ //usamos un join para unir los artistas en un string y separalos por comas. Aunque la forma mas correcta seria usar Intl.ListFormat en vez de join 
+ const artistString = artists.join(", ")
+---
+
+<article class="group relative">
+    <!-- el group permite agrupar, y cuando se haga hover en un elemento del group, mueve el elemento que queremos. En este caso, aunque hagamos hover en la card, se activara el hover del CardButton -->
+
+    <div class=` absolute right-4 bottom-20 translate-y-4 rotate-45 transition-all duration-300 opacity-0 group-hover:translate-y-0 group-hover:rotate-0 group-hover:opacity-100 z-10`>
+        <!-- los componentes de astro por defecto son estaticos, no tienen interactividad, si queremos que se cargue ponemos el client -->
+        <CardPlayButton id={id} client:visible/>
+    </div>
+    <!-- este /playlist/[id] de la pagina [id].astro -->
+    <a href={`/playlist/${id}`} 
+    class="playlist-item transition-all duration-300 flex flex-col relative p-2 overflow-hidden items-center gap-2 pb-4 rounded-md hover:bg-items-color-active shadow-lg hover:shadow-xl bg-items-color-active/30 w-40" transition:name=`playlist ${id} box`>
+    <!-- cargamos la imagen -->
+    <picture class="aspect-square w-full h-auto  flex-none">
+        <!-- para hacer la animacion de la pagina de el album cuando tocamos, tenemos que hacer un nexo con la imagen. Ponemos un transition y el nombre de la transicion que identifica a la imagen. Con esto logramos que identifique que determinada imagen transicione a otra pagina -->
+        <img src={cover} alt={`Cover for ${title} by ${artistString}`} class="w-full h-full object-cover rounded-md" transition:name=`playlist ${id} image` />   
+    </picture>
+    <div class="flex flex-auto flex-col px-2  truncate w-full">
+        <h4 class=" text-white font-bold text-sm truncate" transition:name=`playlist ${id} title`>{title}</h4>
+        <span class="text-sm text-text-color truncate" transition:name=`playlist ${id} artists`>
+            {artistString}
+        </span>
+    </div>
+</a>
+</article>

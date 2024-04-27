@@ -1,0 +1,69 @@
+---
+// el [id] del nombre de la pagina singifica que es el id de la playlist (dinamic)
+//esta dentro de la carpeta playlist para que naveguemos a /playlist/[id]
+import Layout from "../../layouts/Layout.astro";
+import PlayListItemCard from "@/components/PlayListItemCard.astro";
+import { allPlaylists, songs } from "@/lib/data";
+
+//nos traemos las playlist. Primero tenemos que saber cual estamos cargando, buscamos la playlist por id que sea la misma id que la ruta
+
+//este const id se llama asi porque la pagina se llama [id]. La idea es capturar esta id
+const { id } = Astro.params;
+//const playlist lo que hace es traer la playlist por id que viene de la ruta. El find lo que hace es buscar en el array de playlist el id que viene de la ruta.
+const playlist = allPlaylists.find((playlist) => playlist.id === id);
+
+const playListSongs = songs.filter(
+  (song) => song.albumId === playlist?.albumId
+);
+
+const title = playlist?.title || "Unknown";
+---
+ <!-- colocamos el color de fondo del valor tomado de playlist.color.accent -->
+<Layout title={` ${title} - playlist`}>
+  <div
+    id="playlist-container"
+   
+    class="relative flex flex-col h-full   bg-green-900 overflow-x-hidden"
+    transition:name=`playlist ${id} box`
+  >
+    <!-- PageHeader (componente de svelte) -->
+    <header class="flex flex-row  gap-8 px-6 mt-12  ">
+        <picture class="aspect-square w-52 h-52  flex-none">
+            
+            <img src={playlist?.cover} alt={`Cover for ${playlist?.title}`} class="w-full h-full object-cover shadow-lg" transition:name=`playlist ${playlist?.id} image` />   
+        </picture>
+        <div class="flex flex-col justify-between">
+            <h2 class="flex flex-1 items-end">Playlist</h2>
+            <div>
+                <h1 class="title-clamp text-5xl text-white font-bold block">
+                    {playlist?.title}
+                <span transition:name=`playlist ${playlist?.id} title`></span>
+            </h1>
+            </div>
+
+            <div class="flex-1 flex items-end">
+                <div class="text-sm text-gray-300 font-normal">
+                    <div transition:name=`playlist ${playlist?.id} artists`>
+                        <span>
+                            {playlist?.artists.join(", ")}
+                        </span>
+                    </div>
+                    <p class="mt-1">
+                        <span class="text-white">
+                            50 canciones
+                        </span>, 3h aproximadamente
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </header>
+    <div class="relative z-10 px-6 pt-10"></div>
+
+    <div
+      class="absolute -z-10 inset-0 bg-gradient-to-t from-base-color via-base-color/80"
+    ></div>
+
+    <style></style>
+  </div>
+</Layout>

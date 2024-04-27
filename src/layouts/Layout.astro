@@ -1,4 +1,8 @@
 ---
+import AsideMenu from '../components/AsideMenu.astro'
+import Player from '@/components/Player'
+
+import { ViewTransitions } from 'astro:transitions';
 interface Props {
 	title: string;
 }
@@ -12,40 +16,87 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="https://open.spotifycdn.com/cdn/images/favicon.0f31d2ea.ico">
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<ViewTransitions fallback='none'/>
 	</head>
 	<body>
-		<slot />
+		<div id="app" class=" relative h-screen p-2  gap-2 "> 
+			<aside class="[grid-area:aside] flex-col flex overflow-y-auto ">
+				<AsideMenu />
+			</aside>
+			<main class="[grid-area:main] rounded-lg bg-base-color overflow-y-auto w-full">
+				<slot/>
+			</main>
+
+			
+			
+			<!-- tipos de client: el idle sirve para cargar solo cuando ya no hay otras cosas mas prioritarias cargando.El load sirve para cuando se carga la pagina, se carga el componente. media es para cargar dependiendo del viewport (como una media query) el only es para componente que solo queremos renderizar en el cliente, hay que alcarar con que tecnologia ejemplo only="react". El visible es para cuando queremos renderizar el componente solo cuando este visible, este componente se renderiza en el servidor para cuando en el cliente sea visible lo renderiza alli. -->
+
+			<!-- el transition en el player es porque le tenemos que decir a astro que renderice el componente y persista su estado y el componente mismo, es decir, al ir a otra pagina no se vuelve a cargar el componente recuperando su estadio, si no que es el mismo que persiste -->
+			<footer class="[grid-area:player] min-h-[100px] min-w-[620px] h-auto "><Player client:load transition:name="media-player" transition:persist/></footer>
+			
+		</div> 
 	</body>
 </html>
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
+
+	#app {
+		display: grid;
+		grid-template-areas: 
+		"aside main main menu"
+		"player player player player";
+		/* 350px es para el aside y player y 1fr para el main y el resto de player */
+		grid-template-columns: 350px 1fr;
+		/* 1fr seria para el aside y main, y el auto para el player */
+		grid-template-rows: 1fr auto;
 	}
+
+	
 	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
+		font-family:'CircularStd', system-ui, sans-serif;
+		background: #000000;
 		background-size: 224px;
+		color: white;
 	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
+	@font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Medium.woff2") format("woff2");
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Book.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Light.woff2") format("woff2");
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Bold.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Black.woff2") format("woff2");
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
 </style>

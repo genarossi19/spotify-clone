@@ -1,0 +1,38 @@
+---
+//importamos el tipo de la playlist en data
+import type { Playlist } from "@/lib/data";
+
+ interface Props {
+    //una prop llamada playlist de tipo Playlist que viene de data y tiene id, cover, title, artists y color
+   playlist: Playlist;
+
+ }
+
+ const { playlist } = Astro.props;
+ //destructuramos lo que viene en playlist
+ const {
+id,
+cover,
+title,
+artists,
+color
+
+ } = playlist
+
+ //usamos un join para unir los artistas en un string y separalos por comas. Aunque la forma mas correcta seria usar Intl.ListFormat en vez de join 
+ const artistString = artists.join(", ")
+---
+
+<a href={`/playlist/${id}`} 
+class="playlist-item flex relative py-2 px-5 overflow-hidden items-center gap-5 rounded-md hover:bg-items-color-hover  ">
+    <!-- cargamos la imagen -->
+    <picture class="w-12 h-12 flex-none">
+        <img src={cover} alt={`Cover for ${title} by ${artistString}`} class="w-full h-full object-cover rounded-md" />   
+    </picture>
+    <div class="flex flex-auto flex-col truncate">
+         <h4 class="font-semibold text-white text-base">{title}</h4>
+         <span class="font-medium">
+             {artistString}
+         </span>
+    </div>
+</a>
