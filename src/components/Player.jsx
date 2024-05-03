@@ -17,7 +17,10 @@ import { usePlayerStore } from "../store/playerStore";
 
 
 function Player() {
-  //tenemos un estado global de cuando este o no este reproudiciendo una cancion
+  //antes: teniamos un estado local const [isPlaying, setIsPlaying] = useState(false);
+  //ahora: tenemos un estado global de cuando este o no este reproudiciendo una cancion, empleado por el customHook usePlayerStore creado con zustand
+
+  //ir antes a CardPlayButton.jsx: Aca como estamos recuperando el valor de la store, compartira el dato de isPlaying con CardPlayButton.jsx
     const {isPlaying, setIsPlaying} = usePlayerStore(state => state)
     const [currentSong, setCurrentSong] = useState(null);
 
@@ -35,7 +38,8 @@ function Player() {
             audioRef.current.play()
             audioRef.current.volume = 0.1
 
-        }
+        } 
+        //Este handleClick al igual que CardPlayButton.jsx, se encarga de cambiar el estado de isPlaying, haciendo que al hacer click se reproduzca o se pause la musica. Como este isPlaying es parte del estado global definido en playerStore, comparte toda la data, y por eso al hacer click en el reproductor se cambia en la CardPlayButton.jsx y visceversa. 
         setIsPlaying(!isPlaying);
     }
   return (
@@ -44,7 +48,7 @@ function Player() {
 
       <div className="grid place-content-center gap-4 flex-1 ">
         <div className="flex justify-center">
-            <button onClick = {handleClick} className="bg-white rounded-full w-9 text-black p-2">
+            <button onClick = {handleClick} className="bg-white rounded-full w-9 text-black p-2 hover:scale-105">
                 {isPlaying ? <Pause /> : <Play />}
             </button>
         </div>

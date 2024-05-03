@@ -34,8 +34,15 @@ const { title } = Astro.props;
 			
 			<!-- tipos de client: el idle sirve para cargar solo cuando ya no hay otras cosas mas prioritarias cargando.El load sirve para cuando se carga la pagina, se carga el componente. media es para cargar dependiendo del viewport (como una media query) el only es para componente que solo queremos renderizar en el cliente, hay que alcarar con que tecnologia ejemplo only="react". El visible es para cuando queremos renderizar el componente solo cuando este visible, este componente se renderiza en el servidor para cuando en el cliente sea visible lo renderiza alli. -->
 
-			<!-- el transition en el player es porque le tenemos que decir a astro que renderice el componente y persista su estado y el componente mismo, es decir, al ir a otra pagina no se vuelve a cargar el componente recuperando su estadio, si no que es el mismo que persiste -->
-			<footer class="[grid-area:player] min-h-[100px] min-w-[620px] h-auto "><Player client:load transition:name="media-player" transition:persist/></footer>
+			
+
+			<!-- NOTA: Cuando colocamos un client only (donde hay que aclarar el framework usado) el componente solo se renderiza en el cliente, por lo que se puede notar un flasheo o parpadeo al recargar la pagina ademas de que no aparece el .jsx dentro del network de la web, algo que no sucede si usamos por ejemplo un client:load o client:visible, ya que lo renderiza en el cliente solo cuando es visible, normalmente esta renderizado desde el servidor y cuando es visible lo entrega al cliente, evitando ese flasheo y veremos que si aparece el Player.jsx desde el network  -->
+			<footer class="[grid-area:player] min-h-[100px] min-w-[620px] h-auto ">
+				<!-- en este caso hacemos un client load porque queremos que se cargue del lado del servidor y como siempre esta visible, no tendria sentido poner un client:visible -->
+				<!-- el transition en el player es porque le tenemos que decir a astro que renderice el componente y persista su estado y el componente mismo, es decir, al ir a otra pagina no se vuelve a cargar el componente recuperando su estado, si no que es el mismo que persiste -->
+				<Player client:load transition:name="media-player" transition:persist/>
+			
+			</footer>
 			
 		</div> 
 	</body>

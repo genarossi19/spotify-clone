@@ -1,4 +1,6 @@
 ---
+
+//Las cards con las songs que estan en el Main. Son un .astro ya que su data se llama desde el json en data.json. Si fuese desde una api seria un componente de react.
 //importamos el tipo de la playlist en data
 import type { Playlist } from "@/lib/data";
 
@@ -25,16 +27,16 @@ color
  const artistString = artists.join(", ")
 ---
 
-<article class="group relative">
+<article class="group relative hover:bg-items-color-active shadow-lg hover:shadow-xl bg-items-color-active/30 rounded-md transition-all duration-300">
     <!-- el group permite agrupar, y cuando se haga hover en un elemento del group, mueve el elemento que queremos. En este caso, aunque hagamos hover en la card, se activara el hover del CardButton -->
 
     <div class=` absolute right-4 bottom-20 translate-y-4 rotate-45 transition-all duration-300 opacity-0 group-hover:translate-y-0 group-hover:rotate-0 group-hover:opacity-100 z-10`>
-        <!-- los componentes de astro por defecto son estaticos, no tienen interactividad, si queremos que se cargue ponemos el client -->
+        <!-- los componentes de astro por defecto son estaticos, no tienen interactividad, si queremos que se cargue ponemos el client. En este caso esta CardPlayButton al tener una interactividad importante que comparte datos globales con zustand, es un componente de react. Le pasamos la id de la playlist como prop -->
         <CardPlayButton id={id} client:visible/>
     </div>
     <!-- este /playlist/[id] de la pagina [id].astro -->
     <a href={`/playlist/${id}`} 
-    class="playlist-item transition-all duration-300 flex flex-col relative p-2 overflow-hidden items-center gap-2 pb-4 rounded-md hover:bg-items-color-active shadow-lg hover:shadow-xl bg-items-color-active/30 w-40" transition:name=`playlist ${id} box`>
+    class="playlist-item  flex flex-col relative p-2 overflow-hidden items-center gap-2 pb-4   w-40" transition:name=`playlist ${id} box`>
     <!-- cargamos la imagen -->
     <picture class="aspect-square w-full h-auto  flex-none">
         <!-- para hacer la animacion de la pagina de el album cuando tocamos, tenemos que hacer un nexo con la imagen. Ponemos un transition y el nombre de la transicion que identifica a la imagen. Con esto logramos que identifique que determinada imagen transicione a otra pagina -->

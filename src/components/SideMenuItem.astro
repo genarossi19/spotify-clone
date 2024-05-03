@@ -1,4 +1,6 @@
 ---
+
+//El Home, Search, Library etc que estan en el AsideMenu.astro
 interface Props {
   href?: string;
 }
@@ -8,6 +10,7 @@ const { href } = Astro.props;
 
 <li>
   <a class="flex items-center gap-4 py-3 px-5 font-bold  text-text-color hover:text-text-color-hover transition duration-300 ease-in-out  " href={href}>
+    
     <slot />
   </a>
 </li>
