@@ -6,7 +6,9 @@ import svelte from "@astrojs/svelte";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), svelte()],
+  integrations: [tailwind({
+    applyBaseStyles: true,
+  }), react(), svelte()],
   //normalmente astro funciona en el cliente. Vamos a hacer que funcione en el servidor
   output: 'server'
 });

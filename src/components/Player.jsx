@@ -47,6 +47,8 @@ function Player() {
 
     const audioRef = useRef();
 
+    const volumeRef = useRef(1);
+
     //este useEffect sirve para escuchar el cambio del estado de isPlaying y reproducir o pausar la cancion.
     useEffect(() => {
       isPlaying ? audioRef.current.play() : audioRef.current.pause();
@@ -59,6 +61,7 @@ function Player() {
       if(song){
         const src = `/music/${playlist?.id}/0${song.id}.mp3`
         audioRef.current.src = src
+        audioRef.current.volume = volumeRef.current
         audioRef.current.play()
       }
     },[currentMusic])
@@ -88,7 +91,19 @@ function Player() {
         Reproductor
         </div>
 
-      <div className="grid place-content-center ">Volume...</div>
+      <div className="grid place-content-center ">
+        <Slider defaultValue={[100]}
+        max={100}
+        min={0}
+        className="w-[100px]"
+        onValueChange={(value) => {
+          const [newVolume] = value
+          const volumeValue = newVolume / 100
+          volumeRef.current = volumeValue
+          audioRef.current.volume = volumeValue
+        }}
+        />
+        </div>
 
       {/* persistencia de audio. Queremos que persista el estado de la reproduccion del audio aunque navegue entre otras páginas */}
       <audio ref={audioRef}/>
