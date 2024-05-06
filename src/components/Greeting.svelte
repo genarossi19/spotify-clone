@@ -6,11 +6,11 @@
 
     let greeting = ""
 
-    if( currentHour < 12 ) {
+    if( currentHour < 12 && currentHour >=6) {
         greeting = "Buenos Días"
-    } else if( currentHour < 18 ) {
+    } else if( currentHour < 18 && currentHour >= 12) {
         greeting = "Buenas Tardes"
-    } else {
+    } else  {
         greeting = "Buenas Noches"
     }
     </script>

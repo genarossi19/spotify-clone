@@ -21,24 +21,33 @@ function Player() {
   //ahora: tenemos un estado global de cuando este o no este reproudiciendo una cancion, empleado por el customHook usePlayerStore creado con zustand
 
   //ir antes a CardPlayButton.jsx: Aca como estamos recuperando el valor de la store, compartira el dato de isPlaying con CardPlayButton.jsx
-    const {isPlaying, setIsPlaying} = usePlayerStore(state => state)
-    const [currentSong, setCurrentSong] = useState(null);
+    const {currentMusic,isPlaying, setIsPlaying} = usePlayerStore(state => state)
+    // const [currentSong, setCurrentSong] = useState(null);
 
     const audioRef = useRef();
 
+    //este useEffect sirve para escuchar el cambio del estado de isPlaying y reproducir o pausar la cancion.
     useEffect(() => {
-      audioRef.current.src = `/music/1/01.mp3`;
-    }, [currentSong]);
+      isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    },[isPlaying])
+
+    //cada vez que cambie la MUSICA, cambiamos la cancion, 
+
+    useEffect(() => {
+      const {song,playlist,songs} = currentMusic
+      if(song){
+        const src = `/music/${playlist?.id}/0${song.id}.mp3`
+        audioRef.current.src = src
+        audioRef.current.play()
+      }
+    },[currentMusic])
+
+    // useEffect(() => {
+    //   audioRef.current.src = `/music/1/01.mp3`;
+    // }, [currentSong]);
 
     const handleClick = () => {
-        if(isPlaying){
-            audioRef.current.pause()
-        }else{
-            
-            audioRef.current.play()
-            audioRef.current.volume = 0.1
-
-        } 
+      //escuchamos el estado GLOBAL de la reproduccion y sus cambios
         //Este handleClick al igual que CardPlayButton.jsx, se encarga de cambiar el estado de isPlaying, haciendo que al hacer click se reproduzca o se pause la musica. Como este isPlaying es parte del estado global definido en playerStore, comparte toda la data, y por eso al hacer click en el reproductor se cambia en la CardPlayButton.jsx y visceversa. 
         setIsPlaying(!isPlaying);
     }
