@@ -12,8 +12,29 @@ export const Play = () => (
 
 import React, { useState, useRef, useEffect } from "react";
 import { usePlayerStore } from "../store/playerStore";
+import {Slider} from "./Slider";
 
+//Hacemos el componente CurrentSong. Como sera siempre usado desde el player lo declaramos aca en lugar de un CurrentSong.jsx
 
+const CurrentSong = ({image, title, artists}) => {
+  return (
+    <div className={`flex items-center gap-5 relative overflow-hidden `}>
+      <picture className="w-16 h-16 bg-zinc-600 rounded-md shadow-lg overflow-hidden">
+        <img src={image} alt={title} />
+      </picture>
+      <div className="flex flex-col">
+      <h3 className="font-semibold text-sm block ">
+        {title}
+      </h3>
+      <span className="text-xs opacity-80 ">
+        {artists?.join(', ')}
+      </span>
+      </div>
+      
+
+    </div>
+  )
+}
 
 
 function Player() {
@@ -53,7 +74,10 @@ function Player() {
     }
   return (
     <div className="flex flex-row justify-between w-full px-4 z-50">
-      <div>CurrentSong...</div>
+      <div>
+        {/* le pasamos toda la info de la cancion actual */}
+      <CurrentSong {...currentMusic.song} />
+        </div>
 
       <div className="grid place-content-center gap-4 flex-1 ">
         <div className="flex justify-center">
