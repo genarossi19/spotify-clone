@@ -1,8 +1,12 @@
 import React from "react";
 import { Pause, Play } from "./Player.jsx";
 import { usePlayerStore } from "../store/playerStore";
+import dotenv from 'dotenv';
+
+
 
 function CardPlayButton({ id }) {
+  
   //creamos todos los estados gloables que necesitamos con el usePlayerStore
   const { currentMusic, setCurrentMusic, isPlaying, setIsPlaying } =
     usePlayerStore((state) => state);
@@ -15,19 +19,33 @@ function CardPlayButton({ id }) {
       setIsPlaying(false);
       return;
     }
-
+ 
     //si no, hacemos un fetch a la api. Le pasamos la id como query param por si queremos a futuro filtrar etc. Este fetch devuelve una promesa que resolvemos con un .then (podrua hacerse tambien con async/await)
-    fetch(`/api/get-info-playlist.json?id=${id}`)
-      .then(res => res.json()) //recuepramos el objeto response y recuperamos el json. Esto vuelve a devolver una promesa
+    
+   
+      
+      fetch(`/api/get-info-playlist.json?id=${id}`, {
+        headers: {
+          'Authorization': `1234`
+        }
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Acceso no autorizado");
+        }
+        return res.json();
+      })
       .then(data => {
-        //recuperamos la info de las canciones y la playlist (destructruando el data que recibimos de la api)
         const { songs, playlist } = data;
-        //ponemos el setIsPlaying en true
         setIsPlaying(true);
-        //seteamos la current music con las songs, la playlist y en songs reproducimos la primer cancion
         setCurrentMusic({ songs, playlist, song: songs[0] });
+      })
+      .catch(error => {
+        console.error(error);
       });
-
+   
+    
+    
     //aca seteamos el currentMusic con la id correspondiente Este valor es el que vamos a usar abajo con is PlayingPlaylist
     setCurrentMusic({
       playlist: {
