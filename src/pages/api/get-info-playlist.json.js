@@ -1,12 +1,10 @@
+//con astro se pueden crear endpoint similar a Next.
+//La idea de este es que sea el servidor que me pase las canciones, ya que si lo hacemos en el cliente tendria que cargar todas las canciones y lista desde el mismo y no seria lo mas optimo.
+//Esta api deberia llamar a una base de datos pero como no hay ninguna, usamos el archivo data.json.
+import { API_KEY } from '../../../myapikey.d.ts'
 
-
- // Carga las variables de entorno desde el archivo .env
 
 import { allPlaylists, songs as allSongs } from "@/lib/data";
-
-import { API_KEY } from '../../../myapikey.d.ts'
-console.log(API_KEY)
-
 export async function GET({ params, request }) {
   //recuperamos la id que viene de la url
   const { url, headers } = request;
@@ -25,8 +23,8 @@ export async function GET({ params, request }) {
     });
   }
 
-
   const urlObject = new URL(url);
+  
   const id = urlObject.searchParams.get("id");
   if (id === null) {
     return new Response(JSON.stringify({ error: 'ID not found in URL' }), {
@@ -37,16 +35,12 @@ export async function GET({ params, request }) {
     });
   }
 
-  // Verifica si la clave de autenticación es correcta
-  const authKey = headers.get("Authorization");
-  if (authKey != '1234') {
-    return new Response("Acceso no autorizado", { status: 401 });
-  }
+  //recuperamos la informacion de la playlist que tenga la misma id
 
-  // Recupera la información de la playlist que tenga la misma id
   const playlist = allPlaylists.find((playlist) => playlist.id === id);
 
-  // Recupera las canciones que correspondan también
+  //recuperamos las canciones que correspondan tambien
+
   const songs = allSongs.filter((song) => song.albumId === playlist?.albumId);
 
   return new Response(JSON.stringify({ playlist, songs }), {
