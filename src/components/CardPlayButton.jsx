@@ -1,6 +1,8 @@
 import React from "react";
 import { Pause, Play } from "./Player.jsx";
 import { usePlayerStore } from "../store/playerStore";
+import { API_KEY } from '../env.d.ts';
+
 
 function CardPlayButton({ id }) {
   //creamos todos los estados gloables que necesitamos con el usePlayerStore
@@ -17,14 +19,17 @@ function CardPlayButton({ id }) {
     }
 
     //si no, hacemos un fetch a la api. Le pasamos la id como query param por si queremos a futuro filtrar etc. Este fetch devuelve una promesa que resolvemos con un .then (podrua hacerse tambien con async/await)
-    fetch(`/api/get-info-playlist.json?id=${id}`)
-      .then(res => res.json()) //recuepramos el objeto response y recuperamos el json. Esto vuelve a devolver una promesa
-      .then(data => {
-        //recuperamos la info de las canciones y la playlist (destructruando el data que recibimos de la api)
+    
+    fetch(`/api/get-info-playlist.json?id=${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
         const { songs, playlist } = data;
-        //ponemos el setIsPlaying en true
         setIsPlaying(true);
-        //seteamos la current music con las songs, la playlist y en songs reproducimos la primer cancion
         setCurrentMusic({ songs, playlist, song: songs[0] });
       });
 
