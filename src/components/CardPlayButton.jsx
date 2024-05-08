@@ -1,7 +1,8 @@
 import React from "react";
 import { Pause, Play } from "./Player.jsx";
 import { usePlayerStore } from "../store/playerStore";
-import dotenv from 'dotenv';
+
+import { API_KEY } from '../../myapikey.d.ts'
 
 
 
@@ -22,20 +23,15 @@ function CardPlayButton({ id }) {
  
     //si no, hacemos un fetch a la api. Le pasamos la id como query param por si queremos a futuro filtrar etc. Este fetch devuelve una promesa que resolvemos con un .then (podrua hacerse tambien con async/await)
     
-   
-      
-      fetch(`/api/get-info-playlist.json?id=${id}`, {
-        headers: {
-          'Authorization': `1234`
-        }
-      })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error("Acceso no autorizado");
-        }
-        return res.json();
-      })
-      .then(data => {
+
+    fetch(`/api/get-info-playlist.json?id=${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
         const { songs, playlist } = data;
         setIsPlaying(true);
         setCurrentMusic({ songs, playlist, song: songs[0] });
