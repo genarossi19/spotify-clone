@@ -4,7 +4,7 @@ import { usePlayerStore } from "../store/playerStore";
 
 import { API_KEY } from '../../myapikey.d.ts'
 
-
+console.log(API_KEY)
 
 function CardPlayButton({ id }) {
   

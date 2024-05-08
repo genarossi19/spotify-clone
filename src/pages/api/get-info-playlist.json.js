@@ -4,6 +4,8 @@
 
 import { allPlaylists, songs as allSongs } from "@/lib/data";
 
+import { API_KEY } from '../../../myapikey.d.ts'
+console.log(API_KEY)
 
 export async function GET({ params, request }) {
   //recuperamos la id que viene de la url
