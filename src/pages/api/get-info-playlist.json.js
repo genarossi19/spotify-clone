@@ -1,7 +1,7 @@
 //con astro se pueden crear endpoint similar a Next.
 //La idea de este es que sea el servidor que me pase las canciones, ya que si lo hacemos en el cliente tendria que cargar todas las canciones y lista desde el mismo y no seria lo mas optimo.
 //Esta api deberia llamar a una base de datos pero como no hay ninguna, usamos el archivo data.json.
-import { API_KEY } from '../../env.d.ts';
+import { API_KEY } from '../../../myapikey.d.ts'
 
 
 import { allPlaylists, songs as allSongs } from "@/lib/data";

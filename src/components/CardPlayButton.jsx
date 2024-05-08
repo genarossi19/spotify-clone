@@ -1,7 +1,7 @@
 import React from "react";
 import { Pause, Play } from "./Player.jsx";
 import { usePlayerStore } from "../store/playerStore";
-import { API_KEY } from '../env.d.ts';
+import { API_KEY } from '../../myapikey.d.ts'
 
 
 function CardPlayButton({ id }) {
