@@ -66,6 +66,64 @@ const CurrentSong = ({ image, title, artists }) => {
   );
 };
 
+const SongControl = ({ audio }) => {
+  //hacemos un current time para el slider de la cancion donde vamos mostrando su tiempo actual. El audio tiene un evento de tiempo actual que se actualiza cuando avanza la cancion
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    audio.current.addEventListener("timeupdate", handleTimeUpdate)
+    //limpiamos el efecto
+    return () => {
+      audio.current.removeEventListener("timeupdate", handleTimeUpdate)
+    }
+  }, [audio])
+
+const handleTimeUpdate = () => {
+    setCurrentTime(audio.current.currentTime)
+  }
+
+  const formatTime = (time) => {
+
+    if(time === null || time === undefined || isNaN(time)) {
+      return "0:00"
+    }
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`
+  }
+
+  //recuperamos los valores de duracion de la cancion
+
+  const duration = audio?.current?.duration ?? 0
+
+  return (
+     <div className="flex gap-x-5 text-xs">
+      {/* tiempo actual */}
+      <span className="opacity-80 w-12 text-right">
+        {formatTime(currentTime)}        
+      </span>
+        {/* entre medio el slider */}
+      <Slider 
+        min={0}
+        max={audio?.current?.duration ?? 0}
+        value={[currentTime]}
+        className="min-w-[400px] "
+        onValueChange={ (value) => {
+          const [newCurrentTime] = value
+          audio.current.currentTime = newCurrentTime
+        }}
+
+      />
+
+
+      {/* duracion total o final */}
+      <span className="opacity-80 w-12">
+        {formatTime(duration)}
+      </span>
+     </div>
+  )
+}
+
 export const VolumeControl = () => {
   // const [volumeValue, setVolumeValue] = useState(100)
   //usamos ahora el estado GLOBAL para poder tener el ref del volumen tanto en el componente como en el player en si
@@ -166,13 +224,13 @@ function Player() {
     setIsPlaying(!isPlaying);
   };
   return (
-    <div className="flex flex-row justify-between w-full px-4 z-50">
-      <div>
+    <div className="flex flex-row justify-between w-full px-4 z-50 mb-4">
+      <div className="w-[200px]">
         {/* le pasamos toda la info de la cancion actual */}
         <CurrentSong {...currentMusic.song} />
       </div>
 
-      <div className="grid place-content-center gap-4 flex-1 ">
+      <div className="grid place-content-center gap-2 flex-1 ">
         <div className="flex justify-center">
           <button
             onClick={handleClick}
@@ -181,7 +239,7 @@ function Player() {
             {isPlaying ? <Pause /> : <Play />}
           </button>
         </div>
-        Reproductor
+        <SongControl audio={audioRef}/>
       </div>
 
       <div className="grid place-content-center "><VolumeControl/></div>
