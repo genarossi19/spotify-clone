@@ -11,7 +11,9 @@ export const usePlayerStore = create((set)=>({
     //la song es la cancion que estamos reproduciendo y songs es la lista de cancionces que podriamos reproducir
     currentMusic: {playlist:null, song: null, songs: []},
     setIsPlaying: (isPlaying)=>set({isPlaying}),
-    setCurrentMusic: (currentMusic)=>set({currentMusic})
+    setCurrentMusic: (currentMusic)=>set({currentMusic}),
+    volume: 1,
+    setVolume: (volume)=>set({volume}),
 }))
 
 //esta store es usada en :
