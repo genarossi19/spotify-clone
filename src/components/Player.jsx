@@ -75,25 +75,41 @@ export const VolumeControl = () => {
   //guardamos el valor del volumen por lo que creamo un useRef
   const previousVolumeRef = useRef(volume);
 
-  const handleClickVolume = () => {
-    //aca guardamos el valor actual del volumen
+  // const handleClickVolume = () => {
+  //   //aca guardamos el valor actual del volumen
+  //   previousVolumeRef.current = volume;
+  //   //silenciamos al hacer click
+  //   setVolume(0)
+  // }
+
+  // const handleClickSilence = () => {
+  //   //al hacer click recuperamos el valor previo del volumen y lo colocamos en el estado global
+  //   setVolume(previousVolumeRef.current);
+  // }
+const isVolumeSilenced = volume === 0
+  const handleClickVolume = ()=>{
+    if (isVolumeSilenced) {
+      setVolume(previousVolumeRef.current)
+    }
+    if (volume > 0) {
+       //aca guardamos el valor actual del volumen
     previousVolumeRef.current = volume;
     //silenciamos al hacer click
     setVolume(0)
-  }
-
-  const handleClickSilence = () => {
-    //al hacer click recuperamos el valor previo del volumen y lo colocamos en el estado global
-    setVolume(previousVolumeRef.current);
+    }
   }
   return (
     <div className="flex justify-center gap-x-2">
-      {volume === 0 ? <VolumeSilence onClick={handleClickSilence}/> : <VolumeHigh  onClick={handleClickVolume}/>}
+      <button className="opacity-70 hover:opacity-100 transition"onClick={handleClickVolume}>
+
+      {isVolumeSilenced ? <VolumeSilence /> : <VolumeHigh  />}
+      </button>
 
       <Slider
         defaultValue={[100]}
         max={100}
         min={0}
+        value={[volume * 100]}
         className="w-[100px]"
         onValueChange={(value) => {
           const [newVolume] = value;
