@@ -1,0 +1,58 @@
+---
+import Time from "@/icons/Time.astro";
+import PlaySong from "@/icons/PlaySong.astro";
+import { type Song } from "@/lib/data";
+import PlayListItemCard from "./PlayListItemCard.astro";
+
+
+interface Props {
+  songs: Song[];
+}
+
+
+const { songs } = Astro.props;
+
+
+
+---
+
+<!-- esta es la tabla de canciones de cada playlist para la pagina individual de cada playlist -->
+<table class="table-auto text-left min-w-full divide-y divide-gray-500/50 z-10">
+  <thead class="">
+    
+    <tr class="text-gray-300 text-sm font-light">
+      <th class="pl-6  py-2 ">#</th>
+      <th class="px-2 py-2">Title</th>
+      <th class="px-4 py-2">Album</th>
+      <th class="px-4 py-2"><Time /></th>
+    </tr>
+</thead>
+    <tbody class="">
+        <tr class="h-5 "></tr>
+      {
+        songs.map((song, index) => (
+            
+          <tr class="rounded-md hover:bg-white/10 group transition duration-150 ease-in-out ">
+            {/* <td>{song.track}</td> */}
+            <td class=" pl-6  py-2 rounded-tl-lg rounded-bl-lg group-hover:hidden w-16">{index + 1}</td>
+            <td class="pl-6  py-2 rounded-tl-lg rounded-bl-lg hidden group-hover:table-cell w-16 items-center justify-center "><PlaySong/></td>
+            <td class="px-2 py-2 flex gap-3">
+                <picture>
+                    <img src={song.image} alt={`Cover for ${song.title}`} class="w-10 h-10 object-cover rounded-md" />
+                </picture>
+                <div class="flex flex-col">
+
+                <h3 class=" text-white/95 font-normal">{song.title}</h3>
+                <span class="text-text-color text-sm font-normal">{song.artists.join(", ")}</span>
+                </div>
+            </td>
+           
+            <td class="px-4 py-2">{song.album}</td>
+            <td class="px-4 py-2 rounded-tr-lg rounded-br-lg">{song.duration}</td>
+
+          </tr>
+        ))
+      }
+    </tbody>
+  
+</table>

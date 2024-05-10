@@ -1,9 +1,11 @@
 ---
 // el [id] del nombre de la pagina singifica que es el id de la playlist (dinamic)
 //esta dentro de la carpeta playlist para que naveguemos a /playlist/[id]
+import MusicsTable from "@/components/MusicsTable.astro";
 import Layout from "../../layouts/Layout.astro";
 import PlayListItemCard from "@/components/PlayListItemCard.astro";
-import { allPlaylists, songs } from "@/lib/data";
+import { allPlaylists, playlists, songs } from "@/lib/data";
+import CardPlayButton from "@/components/CardPlayButton";
 
 //nos traemos las playlist. Primero tenemos que saber cual estamos cargando, buscamos la playlist por id que sea la misma id que la ruta
 
@@ -15,6 +17,9 @@ const playlist = allPlaylists.find((playlist) => playlist.id === id);
 const playListSongs = songs.filter(
   (song) => song.albumId === playlist?.albumId
 );
+// const color = playlist?.color.accent;
+// console.log(color)
+
 
 const title = playlist?.title || "Unknown";
 ---
@@ -23,7 +28,7 @@ const title = playlist?.title || "Unknown";
   <div
     id="playlist-container"
    
-    class="relative flex flex-col h-full   bg-green-900 overflow-x-hidden"
+    class=`relative flex flex-col   bg-green-300 overflow-x-hidden`
     transition:name=`playlist ${id} box`
   >
     <!-- PageHeader (componente de svelte) -->
@@ -48,22 +53,34 @@ const title = playlist?.title || "Unknown";
                             {playlist?.artists.join(", ")}
                         </span>
                     </div>
-                    <p class="mt-2">
+                    <p class="mt-2 flex gap-2">
                         <span class="text-white">
-                            50 canciones
-                        </span>, 3h aproximadamente
+                           <!-- ponemos el numero total de songs en la playlist mas la palabra canciones si es mas de una y cancion si es una sola -->
+                            {playListSongs.length} {playListSongs.length > 1 ? "canciones" : "cancion"},
+                        </span>
+                        <span>
+                        20min aprox
+                             
+
+                        </span>
                     </p>
                 </div>
             </div>
-
+            
         </div>
+        
     </header>
     <div class="relative z-10 px-6 pt-10"></div>
 
     <div
-      class="absolute -z-10 inset-0 bg-gradient-to-t from-base-color via-base-color/80"
-    ></div>
+      class="absolute -z-[1] inset-0 bg-gradient-to-t from-base-color via-base-color/80 min-h-full w-full"
+    >
 
-    <style></style>
+</div>
+<CardPlayButton id={id} client:load/>
+<section class="p-6">
+    <MusicsTable songs={playListSongs} />
+</section>
+    
   </div>
 </Layout>

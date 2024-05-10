@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AsideListening from './AsideListening.astro'
+import AsideListening from './ViewContent.astro'
 function AsideListeningReact() {
 
 const [state, setState] = useState(false);
