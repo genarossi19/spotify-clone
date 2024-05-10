@@ -3,9 +3,10 @@
 //esta dentro de la carpeta playlist para que naveguemos a /playlist/[id]
 import MusicsTable from "@/components/MusicsTable.astro";
 import Layout from "../../layouts/Layout.astro";
-import PlayListItemCard from "@/components/PlayListItemCard.astro";
+
 import { allPlaylists, playlists, songs } from "@/lib/data";
 import CardPlayButton from "@/components/CardPlayButton";
+
 
 //nos traemos las playlist. Primero tenemos que saber cual estamos cargando, buscamos la playlist por id que sea la misma id que la ruta
 
@@ -71,6 +72,7 @@ const title = playlist?.title || "Unknown";
         
     </header>
     <div class="pl-6 pt-4">
+        
         <CardPlayButton id={id} client:load/>
     </div>
     <div class="relative z-10 px-6 pt-10"></div>

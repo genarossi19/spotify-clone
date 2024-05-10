@@ -6,6 +6,9 @@ import type { Playlist } from "@/lib/data";
 
 import CardPlayButton from "@/components/CardPlayButton.jsx";
 
+
+
+
  interface Props {
     //una prop llamada playlist de tipo Playlist que viene de data y tiene id, cover, title, artists y color
    playlist: Playlist;
@@ -32,8 +35,13 @@ color
 <article class="group relative hover:bg-items-color-active shadow-lg hover:shadow-xl bg-items-color-active/30 rounded-md transition-all duration-300">
     <!-- el group permite agrupar, y cuando se haga hover en un elemento del group, mueve el elemento que queremos. En este caso, aunque hagamos hover en la card, se activara el hover del CardButton -->
 
-    <div class=` absolute right-4 bottom-20 translate-y-4 rotate-45 transition-all duration-300 opacity-0 group-hover:translate-y-0 group-hover:rotate-0 group-hover:opacity-100 z-10`>
+    <div
+    
+     
+    class=` absolute right-4 bottom-20 translate-y-4 rotate-45 transition-all duration-300 opacity-0 group-hover:translate-y-0 group-hover:rotate-0 group-hover:opacity-100 z-10`>
         <!-- los componentes de astro por defecto son estaticos, no tienen interactividad, si queremos que se cargue ponemos el client. En este caso esta CardPlayButton al tener una interactividad importante que comparte datos globales con zustand, es un componente de react. Le pasamos la id de la playlist como prop -->
+       
+        <!-- <CardPlayButton id={id} client:visible/> -->
         <CardPlayButton id={id} client:visible/>
     </div>
     <!-- este /playlist/[id] de la pagina [id].astro -->

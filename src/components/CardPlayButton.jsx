@@ -1,6 +1,7 @@
 import React from "react";
 import { Pause, Play } from "./Player.jsx";
 import { usePlayerStore } from "../store/playerStore";
+import { motion } from 'framer-motion';
 
 function CardPlayButton({ id }) {
   //creamos todos los estados gloables que necesitamos con el usePlayerStore
@@ -38,12 +39,14 @@ function CardPlayButton({ id }) {
     setIsPlaying(!isPlaying);
   };
   return (
-    <button
+    <motion.button
+    whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.8 }}
       onClick={handleClick}
       className="card-play-button bg-spotify-green/90 rounded-full w-10 text-black p-3 hover:scale-110 cursor-pointer hover:bg-spotify-green/100"
     >
       {isPlayingPlaylist ? <Pause /> : <Play />}
-    </button>
+    </motion.button>
   );
 }
 

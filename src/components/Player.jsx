@@ -19,7 +19,7 @@ export const VolumeSilence = () => (
     aria-hidden="true"
     id="volume-icon"
     viewBox="0 0 16 16"
-    class="Svg-sc-ytk21e-0 kcUFwU"
+    
     width={16}
     height={16}
   >
@@ -37,7 +37,7 @@ fill="currentColor"
     aria-hidden="true"
     id="volume-icon"
     viewBox="0 0 16 16"
-    class="Svg-sc-ytk21e-0 kcUFwU"
+    
     width={16}
     height={16}
   >
