@@ -28,7 +28,7 @@ const title = playlist?.title || "Unknown";
   <div
     id="playlist-container"
    
-    class=`relative flex flex-col   bg-green-300 overflow-x-hidden`
+    class=`relative flex flex-col overflow-x-hidden`
     transition:name=`playlist ${id} box`
   >
     <!-- PageHeader (componente de svelte) -->
@@ -70,6 +70,9 @@ const title = playlist?.title || "Unknown";
         </div>
         
     </header>
+    <div class="pl-6 pt-4">
+        <CardPlayButton id={id} client:load/>
+    </div>
     <div class="relative z-10 px-6 pt-10"></div>
 
     <div
@@ -77,7 +80,7 @@ const title = playlist?.title || "Unknown";
     >
 
 </div>
-<CardPlayButton id={id} client:load/>
+
 <section class="p-6">
     <MusicsTable songs={playListSongs} />
 </section>
